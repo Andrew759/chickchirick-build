@@ -1,0 +1,21 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    restart: always
+    ports:
+      - "${RABBIT_MQ_MAIN_PORT:-5672}:5672"  # Основной порт для очередей (AMQP)
+      - "${RABBIT_MQ_WEB_PORT:-15672}:15672" # Порт для веб-интерфейса управления
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      chickchirick-shared-network:
+
+networks:
+  chickchirick-shared-network:
+    external: true
+
+volumes:
+  rabbitmq_data:
